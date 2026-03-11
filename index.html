@@ -1,4 +1,4 @@
-```html
+STUDY HUB
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +15,7 @@ font-family:Arial;
 margin:0;
 background:#0f172a;
 color:white;
-text-align:center;
-transition:0.3s;
+display:flex;
 }
 
 .light{
@@ -24,49 +23,34 @@ background:white;
 color:black;
 }
 
-nav{
+.sidebar{
+width:220px;
 background:#020617;
-padding:15px;
+height:100vh;
+padding:20px;
 }
 
-nav a{
-margin:10px;
-color:white;
-text-decoration:none;
-font-weight:bold;
-}
-
-section{
-padding:40px;
-}
-
-button{
-padding:10px 16px;
-margin:5px;
+.sidebar button{
+width:100%;
+margin:5px 0;
+padding:10px;
+background:#38bdf8;
 border:none;
 border-radius:6px;
-background:#38bdf8;
 cursor:pointer;
 }
 
-input,textarea{
-padding:8px;
-margin:6px;
+.main{
+flex:1;
+padding:40px;
 }
 
-.progress{
-width:60%;
-height:20px;
-background:#1e293b;
-margin:auto;
-border-radius:10px;
+.section{
+display:none;
 }
 
-.bar{
-height:20px;
-width:0%;
-background:#38bdf8;
-border-radius:10px;
+.active{
+display:block;
 }
 
 #time{
@@ -74,19 +58,29 @@ font-size:40px;
 margin:20px;
 }
 
-.card{
+.progress{
+width:60%;
+height:20px;
 background:#1e293b;
-width:70%;
-margin:auto;
-padding:20px;
 border-radius:10px;
-margin-top:10px;
 }
 
-footer{
-background:#020617;
+.bar{
+height:20px;
+background:#38bdf8;
+width:0%;
+border-radius:10px;
+}
+
+.card{
+background:#1e293b;
 padding:20px;
-margin-top:40px;
+border-radius:10px;
+width:60%;
+}
+
+button{
+cursor:pointer;
 }
 
 </style>
@@ -95,107 +89,140 @@ margin-top:40px;
 
 <body>
 
-<nav>
+<div class="sidebar">
 
-<a href="#home">Home</a>
-<a href="#timer">Timer</a>
-<a href="#study">Study</a>
-<a href="#hobby">Hobbies</a>
-<a href="#notes">Notes</a>
-<a href="#chart">Progress</a>
+<h3>Storm Hub</h3>
 
-<button onclick="toggleMode()">Mode</button>
+<button onclick="show('home')">Home</button>
+<button onclick="show('timer')">Study Timer</button>
+<button onclick="show('study')">Study Tracker</button>
+<button onclick="show('hobby')">Hobbies</button>
+<button onclick="show('notes')">Notes</button>
+<button onclick="show('calc')">Calculator</button>
+<button onclick="show('chart')">Progress Chart</button>
 
-</nav>
+<button onclick="toggleMode()">Theme</button>
 
-<section id="home">
+</div>
+
+<div class="main">
+
+<div id="home" class="section active">
 
 <h1>Storm Study Hub 🚀</h1>
 
-<p>JEE + Productivity Dashboard</p>
+<p>JEE Productivity Dashboard</p>
 
-<button id="installBtn" style="display:none">Install App 📱</button>
+<button onclick="motivation()">Motivation</button>
 
-<h3 id="streak">Study Streak: 0 days</h3>
+<p id="quote"></p>
 
-</section>
+<button id="installBtn" style="display:none">Install App</button>
 
-<section id="timer">
+</div>
+
+<div id="timer" class="section">
 
 <h2>Study Timer</h2>
 
 <div id="time">25:00</div>
 
 <button onclick="startTimer()">Start</button>
+<button onclick="resetTimer()">Reset</button>
 
-</section>
+</div>
 
-<section id="study">
+<div id="study" class="section">
 
-<h2>Study Hours Today</h2>
+<h2>Study Hours</h2>
 
-<input id="hours" type="number" placeholder="Hours">
+<input id="hours" type="number">
 
 <button onclick="saveHours()">Save</button>
-
-<p id="studyText"></p>
 
 <div class="progress">
 <div class="bar" id="studyBar"></div>
 </div>
 
-</section>
+</div>
 
-<section id="hobby">
+<div id="hobby" class="section">
 
 <h2>Hobby Tracker</h2>
 
-<input id="hobbyName" placeholder="Hobby name">
+<input id="hobbyName" placeholder="Hobby">
 
-<input id="hobbyProgress" type="number" placeholder="Progress %">
+<input id="hobbyProgress" type="number" placeholder="%">
 
 <button onclick="addHobby()">Add</button>
 
 <div id="hobbyList"></div>
 
-</section>
+</div>
 
-<section id="notes">
+<div id="notes" class="section">
 
-<h2>Quick Notes</h2>
+<h2>Notes</h2>
 
-<textarea id="note" rows="4" cols="40"></textarea>
+<textarea id="note"></textarea>
 
-<br>
-
-<button onclick="saveNote()">Save Note</button>
+<button onclick="saveNote()">Save</button>
 
 <p id="savedNote"></p>
 
-</section>
+</div>
 
-<section id="chart">
+<div id="calc" class="section">
 
-<h2>Weekly Study Progress</h2>
+<h2>Calculator</h2>
 
-<canvas id="studyChart"></canvas>
+<input id="n1">
+<input id="n2">
 
-</section>
+<br><br>
+
+<button onclick="calc('+')">+</button>
+<button onclick="calc('-')">-</button>
+<button onclick="calc('*')">*</button>
+<button onclick="calc('/')">/</button>
+
+<h3 id="result"></h3>
+
+</div>
+
+<div id="chart" class="section">
+
+<h2>Weekly Study Chart</h2>
+
+<canvas id="chartCanvas"></canvas>
+
+</div>
 
 <footer>
 
 <p>Created by Storm</p>
-<p>Email: storm@email.com</p>
+<p>Email: your-email@example.com</p>
 
 </footer>
 
+</div>
+
 <script>
 
+function show(id){
+
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
+
+document.getElementById(id).classList.add("active")
+
+}
+
 let time=1500
+let timer
 
 function startTimer(){
 
-setInterval(function(){
+timer=setInterval(()=>{
 
 let m=Math.floor(time/60)
 let s=time%60
@@ -209,6 +236,14 @@ time--
 
 }
 
+function resetTimer(){
+
+clearInterval(timer)
+time=1500
+document.getElementById("time").innerText="25:00"
+
+}
+
 function toggleMode(){
 
 document.body.classList.toggle("light")
@@ -218,9 +253,6 @@ document.body.classList.toggle("light")
 function saveHours(){
 
 let h=document.getElementById("hours").value
-
-document.getElementById("studyText").innerText=
-"Today's study hours: "+h
 
 document.getElementById("studyBar").style.width=(h*10)+"%"
 
@@ -232,31 +264,7 @@ if(week.length>7) week.shift()
 
 localStorage.setItem("weekStudy",JSON.stringify(week))
 
-updateStreak()
-
 loadChart()
-
-}
-
-function updateStreak(){
-
-let streak=localStorage.getItem("streak")||0
-
-streak++
-
-localStorage.setItem("streak",streak)
-
-document.getElementById("streak").innerText=
-"Study Streak: "+streak+" days"
-
-}
-
-let savedStreak=localStorage.getItem("streak")
-
-if(savedStreak){
-
-document.getElementById("streak").innerText=
-"Study Streak: "+savedStreak+" days"
 
 }
 
@@ -268,9 +276,7 @@ let prog=document.getElementById("hobbyProgress").value
 let div=document.createElement("div")
 
 div.innerHTML=
-
-"<h3>"+name+"</h3>"+
-"<div class='progress'><div class='bar' style='width:"+prog+"%'></div></div>"
+"<p>"+name+"</p><div class='progress'><div class='bar' style='width:"+prog+"%'></div></div>"
 
 document.getElementById("hobbyList").appendChild(div)
 
@@ -286,11 +292,19 @@ document.getElementById("savedNote").innerText=note
 
 }
 
-let savedNote=localStorage.getItem("note")
+function calc(op){
 
-if(savedNote){
+let a=Number(document.getElementById("n1").value)
+let b=Number(document.getElementById("n2").value)
 
-document.getElementById("savedNote").innerText=savedNote
+let r
+
+if(op=="+") r=a+b
+if(op=="-") r=a-b
+if(op=="*") r=a*b
+if(op=="/") r=a/b
+
+document.getElementById("result").innerText=r
 
 }
 
@@ -298,22 +312,40 @@ function loadChart(){
 
 let week=JSON.parse(localStorage.getItem("weekStudy"))||[]
 
-let ctx=document.getElementById("studyChart")
+new Chart(document.getElementById("chartCanvas"),{
 
-new Chart(ctx,{
 type:"bar",
+
 data:{
 labels:["1","2","3","4","5","6","7"],
+
 datasets:[{
 label:"Study Hours",
 data:week
 }]
+
 }
+
 })
 
 }
 
 loadChart()
+
+function motivation(){
+
+let quotes=[
+"Keep pushing forward",
+"Discipline beats motivation",
+"One day IIT",
+"Consistency wins",
+"Small progress daily"
+]
+
+document.getElementById("quote").innerText=
+quotes[Math.floor(Math.random()*quotes.length)]
+
+}
 
 let deferredPrompt
 
@@ -338,5 +370,6 @@ deferredPrompt.prompt()
 </body>
 </html>
 ```
+
 
 
