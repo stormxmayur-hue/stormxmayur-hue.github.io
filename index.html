@@ -1,21 +1,27 @@
+```html
 <!DOCTYPE html>
 <html>
-
 <head>
+
 <title>Storm Study Hub</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
-font-family: Arial;
+font-family: Arial, sans-serif;
 background:#0f172a;
 color:white;
+margin:0;
 text-align:center;
 }
 
 nav{
 background:#020617;
 padding:15px;
+position:sticky;
+top:0;
 }
 
 nav a{
@@ -30,25 +36,58 @@ padding:40px;
 }
 
 button{
-padding:10px 20px;
-font-size:18px;
+padding:12px 20px;
+font-size:16px;
+border:none;
+border-radius:6px;
 cursor:pointer;
+background:#38bdf8;
+color:black;
+}
+
+button:hover{
+background:#0ea5e9;
+}
+
+details{
+background:#1e293b;
+padding:15px;
+margin:10px auto;
+width:70%;
+border-radius:8px;
+}
+
+#time{
+font-size:40px;
+margin:20px;
+}
+
+footer{
+background:#020617;
+padding:20px;
+margin-top:40px;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <nav>
+
+<a href="#home">Home</a>
 <a href="#syllabus">JEE Syllabus</a>
 <a href="#timer">Study Timer</a>
 <a href="#projects">Projects</a>
 <a href="#about">About</a>
+
 </nav>
 
-<section>
+<section id="home">
+
 <h1>Storm Study Hub 🚀</h1>
+
 <p>JEE Preparation + Coding Projects</p>
 
 <a href="https://accounts.google.com">
@@ -59,24 +98,30 @@ cursor:pointer;
 
 <section id="syllabus">
 
-<h2>JEE Main Syllabus</h2>
+<h2>JEE Syllabus</h2>
 
-<h3>Physics</h3>
-<p>Mechanics, Thermodynamics, Optics, Modern Physics</p>
+<details>
+<summary>Physics</summary>
+<p>Mechanics, Thermodynamics, Waves, Optics, Modern Physics</p>
+</details>
 
-<h3>Maths</h3>
-<p>Algebra, Calculus, Trigonometry, Coordinate Geometry</p>
+<details>
+<summary>Mathematics</summary>
+<p>Algebra, Calculus, Coordinate Geometry, Trigonometry, Vectors</p>
+</details>
 
-<h3>Chemistry</h3>
-<p>Physical, Organic, Inorganic</p>
+<details>
+<summary>Chemistry</summary>
+<p>Physical Chemistry, Organic Chemistry, Inorganic Chemistry</p>
+</details>
 
 </section>
 
 <section id="timer">
 
-<h2>Study Timer</h2>
+<h2>Study Timer (Pomodoro)</h2>
 
-<p id="time">25:00</p>
+<div id="time">25:00</div>
 
 <button onclick="startTimer()">Start</button>
 
@@ -86,8 +131,11 @@ cursor:pointer;
 
 <h2>Projects</h2>
 
-<p>Calculator (Coming Soon)</p>
-<p>Workout Tracker (Coming Soon)</p>
+<p>Calculator Tool (coming soon)</p>
+
+<p>Workout Tracker (coming soon)</p>
+
+<p>Study Progress Dashboard (coming soon)</p>
 
 </section>
 
@@ -95,25 +143,41 @@ cursor:pointer;
 
 <h2>About</h2>
 
-<p>Hi, I am Storm. I am preparing for JEE and learning coding.</p>
+<p>Hi, I am Storm.  
+I am preparing for JEE and learning coding.</p>
 
 </section>
+
+<footer>
+
+<p>© Storm Study Hub</p>
+
+</footer>
 
 <script>
 
 let time = 1500;
+let timer;
 
 function startTimer(){
 
-setInterval(function(){
+timer = setInterval(function(){
 
 let minutes = Math.floor(time/60);
 let seconds = time%60;
 
 document.getElementById("time").innerHTML =
-minutes + ":" + seconds;
+minutes + ":" + (seconds<10?"0"+seconds:seconds);
 
 time--;
+
+if(time < 0){
+
+clearInterval(timer);
+
+alert("Break time!");
+
+}
 
 },1000)
 
@@ -122,5 +186,6 @@ time--;
 </script>
 
 </body>
-
 </html>
+```
+
