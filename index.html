@@ -4,29 +4,34 @@
 <head>
 
 <title>Storm Study Hub</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
 body{
-font-family: Arial, sans-serif;
+font-family:Arial;
+margin:0;
 background:#0f172a;
 color:white;
-margin:0;
 text-align:center;
+transition:0.3s;
+}
+
+.light{
+background:white;
+color:black;
 }
 
 nav{
 background:#020617;
 padding:15px;
-position:sticky;
-top:0;
 }
 
 nav a{
+margin:10px;
 color:white;
-margin:15px;
 text-decoration:none;
 font-weight:bold;
 }
@@ -36,30 +41,46 @@ padding:40px;
 }
 
 button{
-padding:12px 20px;
-font-size:16px;
+padding:10px 16px;
+margin:5px;
 border:none;
 border-radius:6px;
-cursor:pointer;
 background:#38bdf8;
-color:black;
+cursor:pointer;
 }
 
-button:hover{
-background:#0ea5e9;
+input,textarea{
+padding:8px;
+margin:6px;
 }
 
-details{
+.progress{
+width:60%;
+height:20px;
 background:#1e293b;
-padding:15px;
-margin:10px auto;
-width:70%;
-border-radius:8px;
+margin:auto;
+border-radius:10px;
+}
+
+.bar{
+height:20px;
+width:0%;
+background:#38bdf8;
+border-radius:10px;
 }
 
 #time{
 font-size:40px;
 margin:20px;
+}
+
+.card{
+background:#1e293b;
+width:70%;
+margin:auto;
+padding:20px;
+border-radius:10px;
+margin-top:10px;
 }
 
 footer{
@@ -77,10 +98,13 @@ margin-top:40px;
 <nav>
 
 <a href="#home">Home</a>
-<a href="#syllabus">JEE Syllabus</a>
-<a href="#timer">Study Timer</a>
-<a href="#projects">Projects</a>
-<a href="#about">About</a>
+<a href="#timer">Timer</a>
+<a href="#study">Study</a>
+<a href="#hobby">Hobbies</a>
+<a href="#notes">Notes</a>
+<a href="#chart">Progress</a>
+
+<button onclick="toggleMode()">Mode</button>
 
 </nav>
 
@@ -88,38 +112,17 @@ margin-top:40px;
 
 <h1>Storm Study Hub 🚀</h1>
 
-<p>JEE Preparation + Coding Projects</p>
+<p>JEE + Productivity Dashboard</p>
 
-<a href="https://accounts.google.com">
-<button>Login with Google</button>
-</a>
+<button id="installBtn" style="display:none">Install App 📱</button>
 
-</section>
-
-<section id="syllabus">
-
-<h2>JEE Syllabus</h2>
-
-<details>
-<summary>Physics</summary>
-<p>Mechanics, Thermodynamics, Waves, Optics, Modern Physics</p>
-</details>
-
-<details>
-<summary>Mathematics</summary>
-<p>Algebra, Calculus, Coordinate Geometry, Trigonometry, Vectors</p>
-</details>
-
-<details>
-<summary>Chemistry</summary>
-<p>Physical Chemistry, Organic Chemistry, Inorganic Chemistry</p>
-</details>
+<h3 id="streak">Study Streak: 0 days</h3>
 
 </section>
 
 <section id="timer">
 
-<h2>Study Timer (Pomodoro)</h2>
+<h2>Study Timer</h2>
 
 <div id="time">25:00</div>
 
@@ -127,65 +130,213 @@ margin-top:40px;
 
 </section>
 
-<section id="projects">
+<section id="study">
 
-<h2>Projects</h2>
+<h2>Study Hours Today</h2>
 
-<p>Calculator Tool (coming soon)</p>
+<input id="hours" type="number" placeholder="Hours">
 
-<p>Workout Tracker (coming soon)</p>
+<button onclick="saveHours()">Save</button>
 
-<p>Study Progress Dashboard (coming soon)</p>
+<p id="studyText"></p>
+
+<div class="progress">
+<div class="bar" id="studyBar"></div>
+</div>
 
 </section>
 
-<section id="about">
+<section id="hobby">
 
-<h2>About</h2>
+<h2>Hobby Tracker</h2>
 
-<p>Hi, I am Storm.  
-I am preparing for JEE and learning coding.</p>
+<input id="hobbyName" placeholder="Hobby name">
+
+<input id="hobbyProgress" type="number" placeholder="Progress %">
+
+<button onclick="addHobby()">Add</button>
+
+<div id="hobbyList"></div>
+
+</section>
+
+<section id="notes">
+
+<h2>Quick Notes</h2>
+
+<textarea id="note" rows="4" cols="40"></textarea>
+
+<br>
+
+<button onclick="saveNote()">Save Note</button>
+
+<p id="savedNote"></p>
+
+</section>
+
+<section id="chart">
+
+<h2>Weekly Study Progress</h2>
+
+<canvas id="studyChart"></canvas>
 
 </section>
 
 <footer>
 
-<p>© Storm Study Hub</p>
+<p>Created by Storm</p>
+<p>Email: storm@email.com</p>
 
 </footer>
 
 <script>
 
-let time = 1500;
-let timer;
+let time=1500
 
 function startTimer(){
 
-timer = setInterval(function(){
+setInterval(function(){
 
-let minutes = Math.floor(time/60);
-let seconds = time%60;
+let m=Math.floor(time/60)
+let s=time%60
 
-document.getElementById("time").innerHTML =
-minutes + ":" + (seconds<10?"0"+seconds:seconds);
+document.getElementById("time").innerText=
+m+":"+(s<10?"0"+s:s)
 
-time--;
-
-if(time < 0){
-
-clearInterval(timer);
-
-alert("Break time!");
-
-}
+time--
 
 },1000)
 
 }
+
+function toggleMode(){
+
+document.body.classList.toggle("light")
+
+}
+
+function saveHours(){
+
+let h=document.getElementById("hours").value
+
+document.getElementById("studyText").innerText=
+"Today's study hours: "+h
+
+document.getElementById("studyBar").style.width=(h*10)+"%"
+
+let week=JSON.parse(localStorage.getItem("weekStudy"))||[]
+
+week.push(h)
+
+if(week.length>7) week.shift()
+
+localStorage.setItem("weekStudy",JSON.stringify(week))
+
+updateStreak()
+
+loadChart()
+
+}
+
+function updateStreak(){
+
+let streak=localStorage.getItem("streak")||0
+
+streak++
+
+localStorage.setItem("streak",streak)
+
+document.getElementById("streak").innerText=
+"Study Streak: "+streak+" days"
+
+}
+
+let savedStreak=localStorage.getItem("streak")
+
+if(savedStreak){
+
+document.getElementById("streak").innerText=
+"Study Streak: "+savedStreak+" days"
+
+}
+
+function addHobby(){
+
+let name=document.getElementById("hobbyName").value
+let prog=document.getElementById("hobbyProgress").value
+
+let div=document.createElement("div")
+
+div.innerHTML=
+
+"<h3>"+name+"</h3>"+
+"<div class='progress'><div class='bar' style='width:"+prog+"%'></div></div>"
+
+document.getElementById("hobbyList").appendChild(div)
+
+}
+
+function saveNote(){
+
+let note=document.getElementById("note").value
+
+localStorage.setItem("note",note)
+
+document.getElementById("savedNote").innerText=note
+
+}
+
+let savedNote=localStorage.getItem("note")
+
+if(savedNote){
+
+document.getElementById("savedNote").innerText=savedNote
+
+}
+
+function loadChart(){
+
+let week=JSON.parse(localStorage.getItem("weekStudy"))||[]
+
+let ctx=document.getElementById("studyChart")
+
+new Chart(ctx,{
+type:"bar",
+data:{
+labels:["1","2","3","4","5","6","7"],
+datasets:[{
+label:"Study Hours",
+data:week
+}]
+}
+})
+
+}
+
+loadChart()
+
+let deferredPrompt
+
+window.addEventListener("beforeinstallprompt",(e)=>{
+
+e.preventDefault()
+
+deferredPrompt=e
+
+document.getElementById("installBtn").style.display="block"
+
+})
+
+document.getElementById("installBtn").addEventListener("click",()=>{
+
+deferredPrompt.prompt()
+
+})
 
 </script>
 
 </body>
 </html>
 ```
+
 
