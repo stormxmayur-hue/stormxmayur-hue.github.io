@@ -1,13 +1,126 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Storm Website</title>
+<title>Storm Study Hub</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+}
+
+nav{
+background:#020617;
+padding:15px;
+}
+
+nav a{
+color:white;
+margin:15px;
+text-decoration:none;
+font-weight:bold;
+}
+
+section{
+padding:40px;
+}
+
+button{
+padding:10px 20px;
+font-size:18px;
+cursor:pointer;
+}
+
+</style>
 </head>
 
 <body>
 
-<h1>Welcome to Storm's Website 🚀</h1>
-<p>This is my first GitHub Pages site.</p>
+<nav>
+<a href="#syllabus">JEE Syllabus</a>
+<a href="#timer">Study Timer</a>
+<a href="#projects">Projects</a>
+<a href="#about">About</a>
+</nav>
+
+<section>
+<h1>Storm Study Hub 🚀</h1>
+<p>JEE Preparation + Coding Projects</p>
+
+<a href="https://accounts.google.com">
+<button>Login with Google</button>
+</a>
+
+</section>
+
+<section id="syllabus">
+
+<h2>JEE Main Syllabus</h2>
+
+<h3>Physics</h3>
+<p>Mechanics, Thermodynamics, Optics, Modern Physics</p>
+
+<h3>Maths</h3>
+<p>Algebra, Calculus, Trigonometry, Coordinate Geometry</p>
+
+<h3>Chemistry</h3>
+<p>Physical, Organic, Inorganic</p>
+
+</section>
+
+<section id="timer">
+
+<h2>Study Timer</h2>
+
+<p id="time">25:00</p>
+
+<button onclick="startTimer()">Start</button>
+
+</section>
+
+<section id="projects">
+
+<h2>Projects</h2>
+
+<p>Calculator (Coming Soon)</p>
+<p>Workout Tracker (Coming Soon)</p>
+
+</section>
+
+<section id="about">
+
+<h2>About</h2>
+
+<p>Hi, I am Storm. I am preparing for JEE and learning coding.</p>
+
+</section>
+
+<script>
+
+let time = 1500;
+
+function startTimer(){
+
+setInterval(function(){
+
+let minutes = Math.floor(time/60);
+let seconds = time%60;
+
+document.getElementById("time").innerHTML =
+minutes + ":" + seconds;
+
+time--;
+
+},1000)
+
+}
+
+</script>
 
 </body>
+
 </html>
